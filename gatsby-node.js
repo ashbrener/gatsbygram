@@ -5,7 +5,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const projectTemplate = path.resolve(`./src/templates/project.js`);
 
   const query = `{
-    projects:allDatoCmsProject {
+    projects:allContentJson {
       edges {
         node {
           title

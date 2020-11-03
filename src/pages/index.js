@@ -3,7 +3,7 @@ import { graphql } from "gatsby";
 import Img from "gatsby-image";
 import { Box } from "rebass";
 import styled from "styled-components";
-import AniLink from "gatsby-plugin-transition-link/AniLink";
+import TransitionLink from "gatsby-plugin-transition-link";
 
 import { Description } from "../components/project-header";
 import Layout from "../components/layout";
@@ -16,19 +16,19 @@ const Grid = styled(Box)`
 
 const ProjectGridItem = ({ project }) => {
   return (
-    <AniLink
+    <TransitionLink
       style={{ textDecoration: "none" }}
       fade
       to={`/projects/${project.slug}`}
       duration={0.2}
     >
       <Box>
-        <Img fluid={project.featuredPhoto.fluid} />
+        <Img fluid={project.localImage.childImageSharp.fluid} />
         <Box mt={3}>
           <Description>{project.title}</Description>
         </Box>
       </Box>
-    </AniLink>
+    </TransitionLink>
   );
 };
 
@@ -45,16 +45,36 @@ const Home = ({ data }) => {
   );
 };
 
+// export const query = graphql`
+//   {
+//     projects: allDatoCmsProject {
+//       edges {
+//         node {
+//           slug
+//           title
+//           featuredPhoto {
+//             fluid {
+//               ...GatsbyDatoCmsFluid
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 export const query = graphql`
   {
-    projects: allDatoCmsProject {
+    projects: allContentJson {
       edges {
         node {
           slug
           title
-          featuredPhoto {
-            fluid {
-              ...GatsbyDatoCmsFluid
+          localImage {
+            childImageSharp {
+              fluid(maxWidth: 1000, maxHeight: 1000) {
+                ...GatsbyImageSharpFluid
+              }
             }
           }
         }

@@ -79,7 +79,7 @@ const ProjectHeader = ({ project, truncated }) => (
         </Box>
       </Box>
     </Flex>
-    <Hero photo={project.featuredPhoto} truncated={truncated} />
+    <Hero photo={project.localImage.childImageSharp} truncated={truncated} />
   </Box>
 );
 

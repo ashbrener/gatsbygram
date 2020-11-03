@@ -32,7 +32,9 @@ const SlidingHeader = posed.div({
 });
 
 const FadingNextProjectHeading = posed.div({
-  exiting: { opacity: 0 }
+  exiting: {
+    opacity: 0
+  }
 });
 
 const ProjectInner = ({ transitionStatus, project }) => {
@@ -62,7 +64,7 @@ const ProjectInner = ({ transitionStatus, project }) => {
     <Layout transitionStatus={transitionStatus}>
       <FadingContent pose={transitionStatus}>
         <ProjectHeader project={project} />
-        <ProjectContent photos={project.photos} />
+        {/*<ProjectContent photos={project.photos} />*/}
       </FadingContent>
       <TransitionLink
         style={{
@@ -104,25 +106,59 @@ const Project = ({ pageContext: projectShell, data }) => {
   );
 };
 
+// export const query = graphql`
+//   query($slug: String!, $nextSlug: String!) {
+//     project: datoCmsProject(slug: { eq: $slug }) {
+//       description
+//       category {
+//         title
+//       }
+//       featuredPhoto {
+//         fluid {
+//           ...GatsbyDatoCmsFluid
+//         }
+//       }
+//       photos {
+//         fluid {
+//           ...GatsbyDatoCmsFluid
+//         }
+//       }
+//     }
+//     next: datoCmsProject(slug: { eq: $nextSlug }) {
+//       title
+//       slug
+//       description
+//       category {
+//         title
+//       }
+//       featuredPhoto {
+//         fluid {
+//           ...GatsbyDatoCmsFluid
+//         }
+//       }
+//     }
+//   }
+// `;
+
 export const query = graphql`
   query($slug: String!, $nextSlug: String!) {
-    project: datoCmsProject(slug: { eq: $slug }) {
+    project: contentJson(slug: { eq: $slug }) {
       description
       category {
         title
       }
       featuredPhoto {
-        fluid {
-          ...GatsbyDatoCmsFluid
-        }
+        imageUrl
       }
-      photos {
-        fluid {
-          ...GatsbyDatoCmsFluid
+      localImage {
+        childImageSharp {
+          fluid(maxWidth: 1000, maxHeight: 1000) {
+            ...GatsbyImageSharpFluid
+          }
         }
       }
     }
-    next: datoCmsProject(slug: { eq: $nextSlug }) {
+    next: contentJson(slug: { eq: $nextSlug }) {
       title
       slug
       description
@@ -130,8 +166,13 @@ export const query = graphql`
         title
       }
       featuredPhoto {
-        fluid {
-          ...GatsbyDatoCmsFluid
+        imageUrl
+      }
+      localImage {
+        childImageSharp {
+          fluid(maxWidth: 1000, maxHeight: 1000) {
+            ...GatsbyImageSharpFluid
+          }
         }
       }
     }

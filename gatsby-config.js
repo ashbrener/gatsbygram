@@ -8,11 +8,29 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-transition-link`,
+    // {
+    //   resolve: `gatsby-source-datocms`,
+    //   options: {
+    //     apiToken: process.env.DATO_API_TOKEN,
+    //     apiUrl: "https://site-api.datocms.com"
+    //   }
+    // }
+    `gatsby-transformer-json`,
     {
-      resolve: `gatsby-source-datocms`,
+      resolve: `gatsby-source-filesystem`,
       options: {
-        apiToken: process.env.DATO_API_TOKEN,
-        apiUrl: "https://site-api.datocms.com"
+        name: `data`,
+        path: `${ __dirname }/src/data`
+      }
+    },
+    {
+      resolve: `gatsby-plugin-remote-images`,
+      options: {
+        nodeType: 'ContentJson',
+        imagePath: 'featuredPhoto.imageUrl',
+        // OPTIONAL: Name you want to give new image field on the node.
+        // Defaults to 'localImage'.
+        // name: 'allItemImages',
       }
     }
   ]
